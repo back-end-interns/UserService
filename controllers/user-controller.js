@@ -23,5 +23,5 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   const result = await service.deleteUser({where: {id: req.body.id}}); //specify where to update
-  res.send({message: "Succesfully Added", result});
+  res.send({message: "Succesfully Deleted", result});
 }
