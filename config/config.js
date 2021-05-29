@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('sequelizedb', 'root', 'password', {
+const sequelize = new Sequelize('userservicedb', 'root', '', {
   host: 'localhost',
   dialect: 'mysql'
 });
@@ -9,6 +9,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.food = require("../models/food")(sequelize, Sequelize);
+//refer to the model
+db.user = require("../models/user")(sequelize, Sequelize);
 
 module.exports = db;
