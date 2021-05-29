@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         department_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false
         },
         firstname: {
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         contact_no: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false
         },
         password: {
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         emergency_contact: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false
         },
         role: {
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         school_year: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         gender: {
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         dateOfBirth: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         placeOfBirth: {
