@@ -3,7 +3,10 @@ const db = require("../config/config")
 
 exports.getData = async () => {
   try{  
-    const result = await db.user.findAll();
+    const result = await db.user.findAll({
+      attributes: {exclude: ['password']}, // to not include the password in the display
+      attributes: {exclude: ['username']} // to not include the password in the display
+    });
     return result;
   }catch(err){
     return false;
@@ -34,5 +37,14 @@ exports.deleteUser = async (body) => {
     return true;
   }catch(err){
     return false;
+  }
+}
+
+exports.signIn = async (query) => {
+  try{  
+    const result = user.findOne(query);
+    return result;
+  }catch(err){
+    return err;
   }
 }
