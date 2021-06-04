@@ -7,19 +7,24 @@ const controller = require("../controllers/user-controller");
 
 //refer to middleware
 const {validator, schemaCreate} = require("../middlewares/validateRequest")
-const {schemaID} = require("../middlewares/validateRequest")
+const {schemaID} = require("../middlewares/validateRequest");
+const verifyToken = require("../middlewares/verifyToken");
 
 //Create data
-router.post("/", validator.body(schemaCreate), controller.createUser)
+router.post("/create", validator.body(schemaCreate), controller.createUser)
 
 //Retrieve data
-router.get("/", controller.getData)
+router.get("/", verifyToken, controller.getData)
 
 //Update
-router.put("/", validator.body(schemaID), controller.updateUser)
+router.put("/update", validator.body(schemaID), controller.updateUser)
 
 //Delete
-router.delete("/", validator.body(schemaID), controller.deleteUser)
+router.delete("/delete", validator.body(schemaID), controller.deleteUser)
+
+//SignIn
+router.post("/signin", controller.signInUser)
+
 
 //exports router
 module.exports = router
