@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BIGINT,
             allowNull: false
         },
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         firstname: {
             type: DataTypes.STRING,
             allowNull: false
@@ -27,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         contact_no: {
             type: DataTypes.BIGINT,
-            allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING,
             allowNull: false
         },
         person_to_contact: {
