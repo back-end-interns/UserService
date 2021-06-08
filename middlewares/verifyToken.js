@@ -4,7 +4,7 @@ const {secret} = require ('../config/token')//refer to config token
 function verifyToken(req, res, next){
 
     //check header or url parameters or post parameters for tokens
-    var token = req.header['tok'];
+    var token = req.headers['tok'];
     if(!token)
         return res.status(403).send({auth: false, message: 'No token provided.'});
     
