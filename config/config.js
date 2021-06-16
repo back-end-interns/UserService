@@ -14,5 +14,6 @@ db.sequelize = sequelize;
 
 //refer to the model
 db.user = require("../models/user")(sequelize, Sequelize);
+db.enrollment = require("../models/enrollment")(sequelize, Sequelize);
 
 module.exports = db;
