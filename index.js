@@ -1,4 +1,5 @@
 const express = require('express');
+const { required } = require('joi');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 //routes
-app.use("/user", require("./routers/user-router"));
+//app.use("/user", require("./routers/user-router"));
+app.use("/enrollment", require("./routers/enroll-router"));
 
 errorRequest(app);
 
