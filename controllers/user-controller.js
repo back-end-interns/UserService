@@ -4,6 +4,8 @@ const service = require("../services/service");
 
 //for encryption
 const bcrypt = require('bcrypt');
+
+//for token
 const jsonWT = require("jsonwebtoken");
 const {secret} = require('../config/token');
 
@@ -21,8 +23,8 @@ exports.createUser = async (req, res) => {
 
       values.password = hash;
 
-      const result = await service.createUser(body);
-      console.log(result); //just to check
+      const result = await service.createUser(values);
+
       res.send({message: "Succesfully Added", status: response});
     })
   }catch(err){
@@ -32,7 +34,7 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   const values = req.body; //specify what to update
-  const condition = { where: { id: req.body.id}} //specify where to update
+  const condition = { where: { id: req.body.id}}; //specify where to update
   const result = await service.updateUser({values, condition}); 
   res.send({message: "Succesfully Updated", result});
 }
@@ -44,17 +46,17 @@ exports.deleteUser = async (req, res) => {
 
 exports.signInUser = async (req, res) => {
   try{
-    const {username, password} = req.body;
-
+    const {lrn, password} = req.body;
+    console.log(lrn);
   // select * from user where username = input
-    await service.signIn({where: {username}}) //query
+    await service.signIn({where: {lrn}}) //query
     .then(data => {
   //does username exist in the database?
       if(!data){
         return res.status(500).send({message: "User not found!"})
       }
-
-  //compare incrypted password with inputed password
+      console.log(data);
+  //compare encrypted password with inputed password
       const validPassword = bcrypt.compareSync(password, data.password)
 
   // valid password is empty return "invalid password"
@@ -72,4 +74,16 @@ exports.signInUser = async (req, res) => {
   }catch(err){
     throw Error(err);
   }
+}
+
+//update the status and then when it is decline it is deleted
+exports.updateStatus = async (req, res) => {
+  const values = req.status; 
+  const condition = { where: { id: req.body.id}}; 
+  if (values == "decline"){
+    const resultD = await service.deleteUser(condition); 
+    res.status(300).send({message: "Succesfully Deleted", resultD});
+  }
+  const result = await service.updateUser({values, condition}); 
+  res.send({message: "Succesfully ID Updated", result});
 }
