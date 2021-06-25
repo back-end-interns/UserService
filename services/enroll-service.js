@@ -35,3 +35,12 @@ exports.deleteEnrollment = async (body) => {
         return false;
     }
 }
+
+exports.logInEnrollment = async (query) => {
+    try{  
+      const result = db.user.findOne(query);
+      return result;
+    }catch(err){
+      return err;
+    }
+  }
