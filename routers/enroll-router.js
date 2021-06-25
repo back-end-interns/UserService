@@ -6,8 +6,8 @@ const router = express.Router();
 const controller = require("../controllers/enroll-controller");
 
 //refer to middleware
-const {validator, schemaEnroll} = require("../middlewares/validateRequest");
-const {schemaID} = require("../middlewares/validateRequest");
+const {validator, schemaEnroll} = require("../middlewares/validateRequestEnroll");
+const {schemaID} = require("../middlewares/validateRequestEnroll");
 
 //Create data
 router.post("/createEnrollment", validator.body(schemaEnroll), controller.createEnrollment)
@@ -20,6 +20,9 @@ router.put("/updateEnrollment", validator.body(schemaID), controller.updateEnrol
 
 //Delete
 router.delete("/deleteEnrollment", validator.body(schemaID), controller.deleteEnrollment)
+
+//SignIn
+router.post("/loginEnrollment", controller.logInEnrollment)
 
 
 //exports router
