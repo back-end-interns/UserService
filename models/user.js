@@ -5,12 +5,16 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
-        department_id: {
-            type: DataTypes.BIGINT,
+        lrn: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
-        username: {
-            type: DataTypes.STRING,
+        department_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        department_id: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         password: {
@@ -30,6 +34,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         address: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        permanentbrgy: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        permanentprovince: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -72,6 +84,11 @@ module.exports = (sequelize, DataTypes) => {
         guardian: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            default: "Pending"
         }
     });
   
