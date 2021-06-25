@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         lrn: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         department_id: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         age: {
@@ -26,14 +26,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         lastschool: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        permanentbrgy: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        permanentprovince: {
             type: DataTypes.STRING,
             allowNull: false
         },
