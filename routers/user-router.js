@@ -6,7 +6,7 @@ const router = express.Router();
 const controller = require("../controllers/user-controller");
 
 //refer to middleware
-const {validator, schemaCreate} = require("../middlewares/validateRequest")
+const {validator, schemaCreate} = require("../middlewares/validateRequest");
 const {schemaID} = require("../middlewares/validateRequest");
 const verifyToken = require("../middlewares/verifyToken");
 
@@ -25,6 +25,8 @@ router.delete("/delete", validator.body(schemaID), controller.deleteUser)
 //SignIn
 router.post("/signin", controller.signInUser)
 
+//Update Status
+router.put("/update", validator.body(schemaID), controller.updateStatus)
 
 //exports router
 module.exports = router
