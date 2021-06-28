@@ -1,6 +1,9 @@
-//refer to service
 const { response } = require("express");
-const service = require("../services/service");
+
+//services
+const CRUD = require("../services/service");
+const db = require("../config/config");
+let service = new CRUD(db.user);
 
 //for encryption
 const bcrypt = require('bcrypt');
@@ -10,7 +13,7 @@ const jsonWT = require("jsonwebtoken");
 const {secret} = require('../config/token');
 
 exports.getData = async (req, res) => {
-  const result = await service.getData();
+  const result = service.retrieve();
   console.log(req.id);
   res.status(200).send({message: "Succesfully Retrieved", data: result });
 }
@@ -23,9 +26,9 @@ exports.createUser = async (req, res) => {
 
       values.password = hash;
 
-      const result = await service.createUser(values);
+      const result = service.create(values);
 
-      res.send({message: "Succesfully Added", status: response});
+      res.send({message: "Succesfully Added", result});
     })
   }catch(err){
     throw Error(err);
@@ -35,12 +38,12 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const values = req.body; //specify what to update
   const condition = { where: { id: req.body.id}}; //specify where to update
-  const result = await service.updateUser({values, condition}); 
+  const result = service.update({values, condition}); 
   res.send({message: "Succesfully Updated", result});
 }
 
 exports.deleteUser = async (req, res) => {
-  const result = await service.deleteUser({where: {id: req.body.id}}); //specify where to update
+  const result = service.delete({where: {id: req.body.id}}); //specify where to update
   res.status(300).send({message: "Succesfully Deleted", result});
 }
 
@@ -49,7 +52,7 @@ exports.signInUser = async (req, res) => {
     const {lrn, password} = req.body;
     console.log(lrn);
   // select * from user where username = input
-    await service.signIn({where: {lrn}}) //query
+    service.signIn({where: {lrn}}) //query
     .then(data => {
   //does username exist in the database?
       if(!data){
@@ -78,12 +81,12 @@ exports.signInUser = async (req, res) => {
 
 //update the status and then when it is decline it is deleted
 exports.updateStatus = async (req, res) => {
-  const values = req.status; 
+  const values = req.body.status; 
   const condition = { where: { id: req.body.id}}; 
   if (values == "decline"){
-    const resultD = await service.deleteUser(condition); 
+    const resultD = service.delete(condition); 
     res.status(300).send({message: "Succesfully Deleted", resultD});
   }
-  const result = await service.updateUser({values, condition}); 
+  const result = service.update({values, condition}); 
   res.send({message: "Succesfully ID Updated", result});
 }
