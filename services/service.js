@@ -1,58 +1,53 @@
-//refer to sequelize config
-const db = require("../config/config")
+class CRUD {
 
-exports.getData = async () => {
-  try{  
-    const result = await db.user.findAll({
-      attributes: {exclude: ['password']} // to not include the password and username in the display
-    });
-    return result;
-  }catch(err){
-    return false;
+  constructor (db){
+    this.db = db;
+  }
+
+  create(body){ 
+    try{  
+      this.db.create(body);
+      return true;
+    }catch(err){
+      return err;
+    }
+  }
+
+  retrieve(){
+    try{  
+      const result = this.db.findAll();
+      return result;
+    }catch(err){
+      return false;
+    }
+  }
+
+  update(body){
+    try{  
+      this.db.update(body.values, body.condition);
+      return true;
+    }catch(err){
+      return err;
+    }
+  }
+
+  delete(body){
+    try{  
+      this.db.destroy(body);
+      return true;
+    }catch(err){
+      return false;
+    }
+  }
+
+  signIn(query){
+    try{  
+      const result = this.db.findOne(query);
+      return result;
+    }catch(err){
+      return err;
+    }
   }
 }
 
-exports.createUser = async (body) => {
-  try{  
-    await db.user.create(body);
-    return true;
-  }catch(err){
-    return err;
-  }
-}
-
-exports.updateUser = async (body) => {
-  try{  
-    await db.user.update(body.values, body.condition);
-    return true;
-  }catch(err){
-    return err;
-  }
-}
-
-exports.deleteUser = async (body) => {
-  try{  
-     await db.user.destroy(body);
-    return true;
-  }catch(err){
-    return false;
-  }
-}
-
-exports.signIn = async (query) => {
-  try{  
-    const result = db.user.findOne(query);
-    return result;
-  }catch(err){
-    return err;
-  }
-}
-
-exports.updateStatus = async (body) => {
-  try{  
-    await db.user.update(body.values, body.condition);
-    return true;
-  }catch(err){
-    return err;
-  }
-}
+module.exports = CRUD
