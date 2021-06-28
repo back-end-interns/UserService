@@ -26,7 +26,7 @@ router.delete("/delete", validator.body(schemaID), controller.deleteUser)
 router.post("/signin", controller.signInUser)
 
 //Update Status
-router.put("/update", validator.body(schemaID), controller.updateStatus)
+router.put("/updateStatus", validator.body(schemaID), controller.updateStatus)
 
 //exports router
 module.exports = router
