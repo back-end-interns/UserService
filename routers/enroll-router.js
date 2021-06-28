@@ -22,8 +22,7 @@ router.put("/updateEnrollment", validator.body(schemaID), controller.updateEnrol
 router.delete("/deleteEnrollment", validator.body(schemaID), controller.deleteEnrollment)
 
 //SignIn
-router.post("/loginEnrollment", controller.logInEnrollment)
-
+router.post("/signinEnrollment", controller.signInEnrollment)
 
 //exports router
 module.exports = router
