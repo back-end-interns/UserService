@@ -1,5 +1,9 @@
-const user = require("../models/user");
-const enrollService = require("../services/enrollService");
+//services
+const CRUD = require("../services/service");
+const db = require("../config/config");
+let service = new CRUD(db.enrollment);
+let userService = new CRUD(db.user);
+
 
 //for encryption
 const bcrypt = require('bcrypt');
@@ -9,51 +13,51 @@ const jsonWT = require("jsonwebtoken");
 const {secret} = require('../config/token');
 
 exports.getEnrollment = async (req, res) => {
-  const result = await enrollService.getEnrollment();
-  console.log(result);
+  const result = service.retrieve();
+  console.log(req.id);
   res.status(200).send({message: "Succesfully Retrieved", data: result });
 }
 
 exports.createEnrollment = async (req, res) => {
-  const result = await enrollService.createEnrollment(req.body);
+  const result =  service.create(req.body);
   console.log(result);
   res.status(200).send({message: "Succesfully Added"});
 }
 
 exports.updateEnrollment = async (req, res) => {
-  const values = req.body;
-  const condition = { where: { id: req.body.id}}
-  const result = await enrollService.updateEnrollment({values, condition});
-  res.status(200).send({message: "Succesfully Updated", result});
+  const values = req.body; //specify what to update
+  const condition = { where: { id: req.body.id}}; //specify where to update
+  const result = service.update({values, condition}); 
+  res.send({message: "Succesfully Updated", result});
 }
 
 exports.deleteEnrollment = async (req, res) => {
-  const result = await enrollService.deleteEnrollment({where: {id: req.body.id}});
-  res.status(200).send({message: "Succesfully Deleted", result});
+  const result = service.delete({where: {id: req.body.id}}); //specify where to update
+  res.status(300).send({message: "Succesfully Deleted", result});
 }
 
-exports.logInEnrollment = async (req, res) => {
+exports.signInEnrollment = async (req, res) => {
   try{
-    const {lrn, password} = req.body; //takes user input
+    const {lrn, password} = req.body;
     console.log(lrn);
-
-    // check if the lrn exist in user schema
-    await enrollService.logInEnrollment({where: {lrn}})
+  // select * from user where username = input
+    userService.signIn({where: {lrn}}) //query
     .then(data => {
+  //does username exist in the database?
       if(!data){
         return res.status(500).send({message: "User not found!"})
       }
       console.log(data);
-    
-      //compare encrypted password with inputed password
-      const validPassword = bcrypt.compareSync(password, data.password)
+  //compare encrypted password with inputed password
+     
+      const validPassword = bcrypt.compareSync(password, data.password);
 
-      // valid password is empty return "invalid password"
+  // valid password is empty return "invalid password"
       if(!validPassword){
         return res.status(500).send({message: "Invalid Password"})
       }
 
-      //generate token for a specific user with a secret key to be added to the encryption
+  //generate token for a specific user with a secret key to be added to the encryption
       var token = jsonWT.sign({id: data.id}, secret, {
         expiresIn: 3600
       })
