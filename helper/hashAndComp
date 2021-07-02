@@ -1,0 +1,49 @@
+//for encryption
+const bcrypt = require('bcrypt');
+const { hash } = require("bcrypt");
+
+//for token
+const jsonWT = require("jsonwebtoken");
+const {secret} = require('../config/token');
+
+class hashing {
+    constructor (){
+    }
+
+    hashing(body, service){ 
+        bcrypt.hash(body.password, 5).then(async hash =>{
+            body.password = hash;
+            result = service.create(body);
+        })
+    }
+
+    comparing(secret, res, lrn, inputPass){
+
+        // select * from user where username = input
+        service.getOne({where: {lrn}}) //query
+        .then(data => {
+            //does username exist in the database?
+            if(!data){
+                return res.status.send({message: "User not found!"})
+            }
+            
+            console.log(data);
+    
+            //compare encrypted password with inputed password
+            const validPassword = bcrypt.compareSync(inputPass, data.password);
+
+            // valid password is empty return "invalid password"
+            if(!validPassword){
+                return res.status(500).send({message: "Invalid Password"})
+            }
+    
+            //generate token for a specific user with a secret key to be added to the encryption
+            var token = jsonWT.sign({id: data.id}, secret, {
+                expiresIn: 3600
+            })
+
+            res.status(200).send({token});
+        })
+    }
+}
+module.exports = hashing
