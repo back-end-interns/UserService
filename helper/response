@@ -1,0 +1,29 @@
+class response {
+
+    constructor (){
+    }
+
+    resRetrieve(res, result){ 
+        res.status(200).send({message: "Succesfully Retrieved", data: result });
+    }
+
+    resCreate(res, result){ 
+        res.status(201).send({message: "Succesfully Created", data: result });
+    }
+
+    resUpdate(res, result){ 
+        res.status(202).send({message: "Succesfully Updated", data: result });
+    }
+
+    resDelete(res, result){ 
+        res.status(200).send({message: "Succesfully Deleted", data: result });
+    }
+
+    resOther(res, status, msg, result){
+        res.status(status).send({message: msg, data: result });
+    }
+
+
+}
+
+module.exports = response
