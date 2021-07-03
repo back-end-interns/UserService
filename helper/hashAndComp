@@ -10,11 +10,8 @@ class hashing {
     constructor (){
     }
 
-    hashing(body, service){ 
-        bcrypt.hash(body.password, 5).then(async hash =>{
-            body.password = hash;
-            result = service.create(body);
-        })
+    hashing(body){ 
+        return bcrypt.hash(body.password, 5);
     }
 
     comparing(secret, res, lrn, inputPass){
