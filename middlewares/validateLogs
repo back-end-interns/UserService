@@ -1,0 +1,15 @@
+const joi = require('joi');
+
+const validator = require('express-joi-validation').createValidator({passError: true});
+
+const schemaLogs = joi.object({
+    id: joi.number().required(),
+    description: joi.string().required(),
+    userID: joi.number().required()
+})
+
+const schemaID = joi.object({
+    id: joi.number().required()
+})
+
+module.exports = {validator, schemaLogs, schemaID};
